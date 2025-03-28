@@ -75,10 +75,6 @@ export default function ListHome({ selectedTasks = [], setSelectedTasks }) {
   const [editModal, setEditModal] = useState(false);
   const [idEditModal, setIdEditModal] = useState(null);
 
-  const handleChangePage = (event, newPage) => {
-    dispatch(changePage(newPage));
-  };
-
   const handleChangeRowsPerPage = (event) => {
     const newLimit = parseInt(event.target.value, 10);
     dispatch(changeRowPerPage(newLimit));
@@ -515,7 +511,7 @@ export default function ListHome({ selectedTasks = [], setSelectedTasks }) {
             component="div"
             count={total}
             page={page - 1}
-            onPageChange={handleChangePage}
+            onPageChange={(e, newPage) => dispatch(changePage(newPage))}
             rowsPerPage={limit}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
