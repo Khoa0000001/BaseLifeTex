@@ -51,14 +51,18 @@ export const deleteManyTasks = async (ids) => {
   }
 };
 
-export const searchTasks = async(searchQuery) => {
+export const searchTasks = async(searchQuery, projectId) => {
   const response = await axiosInstance.get(`/tasks/search`, {
-    params: { search: searchQuery }
+    params: {
+      search: searchQuery,
+      projectId: projectId
+    }
   });
   return response.data;
 }
 
 export const getTaskByPagination = async (projectId,page,pageSize) => {
   const response = await axiosInstance.get(`/tasks/project/${projectId}?page=${page}&limit=${pageSize}`);
+  console.log(response.data);
   return response.data;
 };

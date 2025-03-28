@@ -32,34 +32,16 @@ export default function ListHome({  selectedTasks = [], setSelectedTasks }) {
   const idProject = searchParams.get("idProject");
   const listTask = useSelector((state) => state.task.listTask);
   const dispatch = useDispatch();
-  let Page = useSelector((state)=>state.task.page);
-  let Limit = useSelector((state)=>state.task.limit);
-  let Total = useSelector((state)=>state.task.total);
-
-  useEffect(() => {
-    dispatch(getListTaskByProjectIdRedux(idProject));
-  }, [idProject, dispatch]);
+  let page = useSelector((state)=>state.task.page);
+  let limit = useSelector((state)=>state.task.limit);
+  let total = useSelector((state)=>state.task.total);
 
   const [loading, setLoading] = useState(false);
-  
-  const getList = async ()=>{
-    setLoading(true)
-    try {
-      if (idProject) {
-        await dispatch(getByIndexParanation({ projectId: idProject, page: Page, pageSize: Limit }));
-      }
-    } catch (error) {
-      toast.error("Tạo nhiệm vụ thất bại", error);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  }
 
   useEffect(() => {
-    getList();
-  }, [idProject, Page, Limit]);
-  
+    console.log(page, limit, total);
+    dispatch(getByIndexParanation({ projectId: idProject, page: page, pageSize: limit }));
+  }, [page, limit, total, idProject, dis]);
 
   const inputRef = useRef(null);
 
@@ -76,10 +58,6 @@ export default function ListHome({  selectedTasks = [], setSelectedTasks }) {
   const [idOpenComment, setIdOpenComment] = useState(null);
   const [editModal, setEditModal] = useState(false);
   const [idEditModal, setIdEditModal] = useState(null);
-  
-  const handleChangePage = (event, newPage) => {
-    dispatch(changePage(newPage));
-  };
   
   const handleChangeRowsPerPage = (event) => {
     const newLimit = parseInt(event.target.value, 10);
@@ -501,10 +479,10 @@ export default function ListHome({  selectedTasks = [], setSelectedTasks }) {
         </TableContainer>
         <TablePagination
       component="div"
-      count={Total}
-      page={Page-1}
-      onPageChange={handleChangePage}
-      rowsPerPage={Limit}
+      count={total}
+      page={page-1}
+      onPageChange={(e, newPage) => dispatch(changePage(newPage))}
+      rowsPerPage={limit}
       onRowsPerPageChange={handleChangeRowsPerPage}
     />     
       </Paper>

@@ -26,8 +26,14 @@ export default function Home() {
   const [anchorElFilter, setAnchorElFilter] = useState(null);
   const [listMember, setListMember] = useState([]);
   const [selectedTasks, setSelectedTasks] = useState([]);
+
   const [keyword, setKeyword] = useState("");
   const [debouncedKeyword, setDebouncedKeyword] = useState("");
+
+  const openFilter = Boolean(anchorElFilter);
+  const openMember = Boolean(anchorEl);
+  const filterId = openFilter ? "filter-popover" : undefined;
+  const memberId = openMember ? "member-popover" : undefined;
 
   const getMemberByProject = useCallback(async () => {
     const response = await getlistUser(idProject);
@@ -107,10 +113,7 @@ export default function Home() {
       alert("Lỗi hệ thống, vui lòng thử lại!");
     }
   };
-  const openFilter = Boolean(anchorElFilter);
-  const openMember = Boolean(anchorEl);
-  const filterId = openFilter ? "filter-popover" : undefined;
-  const memberId = openMember ? "member-popover" : undefined;
+
   return (
     <div className="home-container">
       {/* Header Section */}

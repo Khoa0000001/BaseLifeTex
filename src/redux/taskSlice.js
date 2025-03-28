@@ -38,10 +38,11 @@ export const deleteManyTasksRedux = createAsyncThunk(
     }
   }
 );
+
 export const getByIndexParanation = createAsyncThunk(
   "task/getByIndexParanation",
-  async ({projectId,page,pageSize}, { rejectWithValue }) => {
-    const reponse = await getTaskByPagination(projectId,+page,+pageSize);    
+  async ({ projectId, page, pageSize }, { rejectWithValue }) => {
+    const reponse = await getTaskByPagination(projectId, page, pageSize);    
     if (reponse.success) {
       return reponse;
     } else {
@@ -58,7 +59,7 @@ export const searchTasksInProject = createAsyncThunk(
       if (!searchQuery) {
         result = await getTasksByProject(idProject);
       } else {
-        result = await searchTasks(searchQuery);
+        result = await searchTasks(searchQuery, idProject);
       }
 
       if (result.success) {
@@ -78,9 +79,9 @@ const taskSlice = createSlice({
     listTask: [],
     listComment: [],
     isFetching: false,
-    total:0,
-    limit:5,
-    page:1,
+    page: 1,
+    limit: 5,
+    total: 0,
     error: null,
   },
   reducers: {
