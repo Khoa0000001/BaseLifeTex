@@ -64,17 +64,22 @@ export default function Home() {
   useEffect(() => {
     if (!idProject) return;
 
-    // Đợi 300ms mới cập nhật keyword mới, tránh cho server quá tải request
+    // Đợi 100ms mới cập nhật keyword mới, tránh cho server quá tải request
     const handler = setTimeout(() => {
       setDebouncedKeyword(keyword);
-    }, 300);
+    }, 100);
 
     return () => clearTimeout(handler); // Hủy timeout nếu keyword thay đổi
   }, [keyword, idProject]);
 
   useEffect(() => {
     if (!idProject) return;
-    dispatch(searchTasksInProject({ searchQuery: debouncedKeyword, idProject: idProject }));
+    dispatch(
+      searchTasksInProject({
+        searchQuery: debouncedKeyword,
+        idProject: idProject,
+      })
+    );
   }, [debouncedKeyword, idProject, dispatch]);
 
   const handleClick = (event) => {
